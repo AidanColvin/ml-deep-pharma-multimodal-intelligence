@@ -47,5 +47,22 @@ clean:
 vis:
 	@echo "Generating Visualizations..."
 	python3 src/visualizations.py
-	python3 src/visualizations_roc.py
+	
 	@echo "✔ Visualizations saved to reports/figures/"
+
+clustering:
+	python src/train_clustering.py && python3 src/visualizations_clustering-v1.py
+groupings:
+	python3 src/train_groupings.py && python3 src/visualizations_groupings.py
+groupings:
+	python3 src/train_groupings.py && python3 src/visualizations_groupings.py
+
+visualizations:
+	python3 generate_visuals.py
+
+describe:
+	python3 src/descriptive_stats.py
+
+tables:
+	python3 src/descriptive_stats.py
+	python3 src/make_classification_tables.py

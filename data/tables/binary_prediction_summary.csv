@@ -1,0 +1,4 @@
+Metric,Value
+Micro F1,0.5772
+Macro F1,0.5698
+Mean per-label AUC,0.8938

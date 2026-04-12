@@ -1,0 +1,4 @@
+Model,Accuracy,Macro_F1,AUC
+Logistic Regression,0.7694,0.5395,0.9241
+Random Forest,0.7661,0.5639,0.9146
+Gradient Boosting,0.7746,0.5666,0.9252

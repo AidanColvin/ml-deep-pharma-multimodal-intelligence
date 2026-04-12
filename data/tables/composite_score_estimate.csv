@@ -1,0 +1,5 @@
+Component,Value
+Severity Macro F1 (×0.40),0.5666
+Side Effect Micro F1 (×0.30),0.5772
+PRR Inv RMSE (×0.30),0.2023
+Estimated Composite Score,0.4605

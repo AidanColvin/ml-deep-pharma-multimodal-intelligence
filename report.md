@@ -1,3 +1,9 @@
+<style>
+@page { margin-top: 0.5in; margin-bottom: 0.75in; margin-left: 0.75in; margin-right: 0.75in; }
+body { margin-top: 0; padding-top: 0; }
+h1:first-of-type { margin-top: 0; padding-top: 0; }
+</style>
+
 # Drug Interaction Severity Prediction
 Generative AI provided limited assistance in line with the course policy on usage of AI.
 

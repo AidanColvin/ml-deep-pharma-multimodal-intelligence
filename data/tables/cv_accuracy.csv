@@ -1,0 +1,4 @@
+Model,CV_Mean,CV_Std
+Logistic Regression,0.7537,0.0083
+Random Forest,0.741,0.0152
+Gradient Boosting,0.757,0.0153

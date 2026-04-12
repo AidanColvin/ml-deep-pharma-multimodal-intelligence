@@ -1,0 +1,7 @@
+Statistic,Value
+Total PRR entries,764200.0
+Non-zero PRR entries (%),21.5
+Mean PRR (non-zero),3.892
+Median PRR (non-zero),2.5
+Max PRR,240.0
+PRR cols,50.0

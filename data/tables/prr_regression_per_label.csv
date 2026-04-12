@@ -1,0 +1,51 @@
+Adverse Event,RMSE (masked),Inverse RMSE
+Abdominal pain,5.464,0.1547
+Anaemia,7.291,0.1206
+Anxiety,5.51,0.1536
+Arthralgia,3.14,0.2416
+Asthenia,4.781,0.173
+Atrial fibrillation,10.435,0.0875
+Back pain,5.213,0.161
+Chest pain,4.069,0.1973
+Condition aggravated,4.206,0.1921
+Confusional state,4.058,0.1977
+Constipation,6.303,0.1369
+Cough,5.648,0.1504
+Death,1.397,0.4172
+Decreased appetite,5.532,0.1531
+Dehydration,6.72,0.1295
+Depression,4.334,0.1875
+Diarrhoea,3.033,0.248
+Dizziness,3.358,0.2295
+Drug ineffective,1.271,0.4404
+Drug interaction,7.544,0.117
+Dyspnoea,2.19,0.3134
+Fall,5.162,0.1623
+Fatigue,1.925,0.3419
+Gait disturbance,3.683,0.2135
+General physical health deterioration,4.61,0.1783
+Haemoglobin decreased,5.353,0.1574
+Headache,3.065,0.246
+Hypertension,7.528,0.1173
+Hypoaesthesia,4.917,0.169
+Hypotension,5.461,0.1548
+Insomnia,2.963,0.2523
+Loss of consciousness,3.714,0.2121
+Malaise,2.729,0.2682
+Myocardial infarction,4.063,0.1975
+Nausea,1.8,0.3571
+Oedema peripheral,4.787,0.1728
+Pain,2.838,0.2606
+Pain in extremity,2.745,0.267
+Pneumonia,4.618,0.178
+Pruritus,3.773,0.2095
+Pyrexia,4.58,0.1792
+Rash,1.984,0.3351
+Renal failure,6.162,0.1396
+Renal failure acute,9.544,0.0948
+Somnolence,4.877,0.1701
+Tremor,4.612,0.1782
+Urinary tract infection,7.082,0.1237
+Vomiting,3.789,0.2088
+Weight decreased,3.871,0.2053
+Weight increased,5.067,0.1648

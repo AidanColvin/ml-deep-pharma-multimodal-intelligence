@@ -1,0 +1,51 @@
+Adverse Event,F1,AUC
+Abdominal pain,0.571,0.894
+Anaemia,0.616,0.897
+Anxiety,0.601,0.901
+Arthralgia,0.582,0.891
+Asthenia,0.635,0.899
+Atrial fibrillation,0.527,0.896
+Back pain,0.566,0.892
+Chest pain,0.564,0.89
+Condition aggravated,0.499,0.892
+Confusional state,0.546,0.899
+Constipation,0.538,0.899
+Cough,0.547,0.888
+Death,0.563,0.894
+Decreased appetite,0.553,0.894
+Dehydration,0.543,0.893
+Depression,0.588,0.902
+Diarrhoea,0.646,0.89
+Dizziness,0.608,0.898
+Drug ineffective,0.564,0.885
+Drug interaction,0.521,0.89
+Dyspnoea,0.666,0.897
+Fall,0.609,0.902
+Fatigue,0.651,0.894
+Gait disturbance,0.533,0.896
+General physical health deterioration,0.526,0.902
+Haemoglobin decreased,0.522,0.89
+Headache,0.609,0.891
+Hypertension,0.59,0.897
+Hypoaesthesia,0.521,0.901
+Hypotension,0.562,0.896
+Insomnia,0.563,0.899
+Loss of consciousness,0.502,0.885
+Malaise,0.564,0.883
+Myocardial infarction,0.504,0.893
+Nausea,0.662,0.887
+Oedema peripheral,0.578,0.889
+Pain,0.626,0.891
+Pain in extremity,0.574,0.888
+Pneumonia,0.628,0.893
+Pruritus,0.515,0.889
+Pyrexia,0.631,0.89
+Rash,0.554,0.891
+Renal failure,0.551,0.902
+Renal failure acute,0.55,0.886
+Somnolence,0.545,0.901
+Tremor,0.508,0.897
+Urinary tract infection,0.533,0.897
+Vomiting,0.633,0.89
+Weight decreased,0.583,0.892
+Weight increased,0.518,0.896
