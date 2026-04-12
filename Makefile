@@ -43,3 +43,9 @@ compare:
 
 clean:
 	rm -rf $(PROCESSED_DIR)/*.csv
+
+vis:
+	@echo "Generating Visualizations..."
+	python3 src/visualizations.py
+	python3 src/visualizations_roc.py
+	@echo "✔ Visualizations saved to reports/figures/"

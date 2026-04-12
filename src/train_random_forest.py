@@ -10,30 +10,17 @@ except ImportError:
 
 def train():
     train_df, test_df, X_train, X_test, bin_cols, prr_cols = load_and_vectorize()
-    
-    pbar = tqdm(total=3, desc="Training Optimized Random Forest")
-    
-    # 1. Severity (Keep this strong)
-    sev_m = RandomForestClassifier(n_estimators=50, n_jobs=-1).fit(X_train, train_df['Severity'])
+    pbar = tqdm(total=3, desc="Training RF")
+    sev_m = RandomForestClassifier(n_estimators=100, n_jobs=-1).fit(X_train, train_df['Severity'])
     pbar.update(1)
-    
-    # 2. Binary Side Effects (Reduced to 10 trees to prevent freezing)
-    bin_m = MultiOutputClassifier(
-        RandomForestClassifier(n_estimators=10, n_jobs=-1)
-    ).fit(X_train, train_df[bin_cols])
+    bin_m = MultiOutputClassifier(RandomForestClassifier(n_estimators=10, n_jobs=-1), n_jobs=-1).fit(X_train, train_df[bin_cols])
     pbar.update(1)
-    
-    # 3. PRR Risk (Using Ridge here because it is 100x faster for regression)
     prr_m = MultiOutputRegressor(Ridge()).fit(X_train, train_df[prr_cols])
     pbar.update(1)
     pbar.close()
-    
-    print("Saving results...")
     sub = pd.DataFrame({'Pair_ID': test_df['Pair_ID'], 'Severity': sev_m.predict(X_test)})
     sub = pd.concat([sub, pd.DataFrame(bin_m.predict(X_test), columns=bin_cols)], axis=1)
     sub = pd.concat([sub, pd.DataFrame(prr_m.predict(X_test), columns=prr_cols)], axis=1)
-    
     sub.to_csv('data/processed/submission_rf.csv', index=False)
-    print("✔ RF Training Complete.")
-
+    print("✔ RF Complete.")
 if __name__ == "__main__": train()
