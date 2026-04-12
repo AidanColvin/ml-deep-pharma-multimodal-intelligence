@@ -1,25 +1,39 @@
 import pandas as pd
+from tqdm import tqdm
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
+from sklearn.linear_model import Ridge
+from sklearn.multioutput import MultiOutputClassifier, MultiOutputRegressor
+try:
+    from src.train_helper import load_and_vectorize
+except ImportError:
+    from train_helper import load_and_vectorize
 
-def train_and_evaluate() -> None:
-    """
-    Loads split data and trains Random Forest.
-    Calculates accuracy and saves the result to CSV.
-    """
-    X_train = pd.read_csv('data/preprocessed/X_train_lasso.csv')
-    X_test = pd.read_csv('data/preprocessed/X_test_lasso.csv')
-    y_train = pd.read_csv('data/preprocessed/y_train.csv')['Heart Disease']
-    y_test = pd.read_csv('data/preprocessed/y_test.csv')['Heart Disease']
+def train():
+    train_df, test_df, X_train, X_test, bin_cols, prr_cols = load_and_vectorize()
     
-    model = RandomForestClassifier(random_state=42, n_jobs=-1)
-    model.fit(X_train, y_train)
-    predictions = model.predict(X_test)
+    pbar = tqdm(total=3, desc="Training Optimized Random Forest")
     
-    accuracy = accuracy_score(y_test, predictions)
-    result_df = pd.DataFrame({'Model': ['Random Forest'], 'Accuracy': [accuracy]})
-    result_df.to_csv('data/preprocessed/random_forest_results.csv', index=False)
-    print("Random Forest trained.")
+    # 1. Severity (Keep this strong)
+    sev_m = RandomForestClassifier(n_estimators=50, n_jobs=-1).fit(X_train, train_df['Severity'])
+    pbar.update(1)
+    
+    # 2. Binary Side Effects (Reduced to 10 trees to prevent freezing)
+    bin_m = MultiOutputClassifier(
+        RandomForestClassifier(n_estimators=10, n_jobs=-1)
+    ).fit(X_train, train_df[bin_cols])
+    pbar.update(1)
+    
+    # 3. PRR Risk (Using Ridge here because it is 100x faster for regression)
+    prr_m = MultiOutputRegressor(Ridge()).fit(X_train, train_df[prr_cols])
+    pbar.update(1)
+    pbar.close()
+    
+    print("Saving results...")
+    sub = pd.DataFrame({'Pair_ID': test_df['Pair_ID'], 'Severity': sev_m.predict(X_test)})
+    sub = pd.concat([sub, pd.DataFrame(bin_m.predict(X_test), columns=bin_cols)], axis=1)
+    sub = pd.concat([sub, pd.DataFrame(prr_m.predict(X_test), columns=prr_cols)], axis=1)
+    
+    sub.to_csv('data/processed/submission_rf.csv', index=False)
+    print("✔ RF Training Complete.")
 
-if __name__ == "__main__":
-    train_and_evaluate()
+if __name__ == "__main__": train()

@@ -76,7 +76,7 @@ PREPROCESSED_DIR  = Path("data/preprocessed")
 PREPROCESSED_FILE = PREPROCESSED_DIR / "preprocessed-train-data.csv"
 
 
-TARGET_COLUMN = "Heart Disease"
+TARGET_COLUMN = "Severity"
 ID_COLUMN     = "id"
 
 CONTINUOUS_COLUMNS = ["Age", "BP", "Cholesterol", "Max HR", "ST depression"]
@@ -114,7 +114,7 @@ def drop_id_column(df: pd.DataFrame) -> pd.DataFrame:
     return dataframe with the id column removed
     id carries no predictive signal
     """
-    return df.drop(columns=[ID_COLUMN])
+    return df.drop(columns=["Pair_ID"], errors="ignore")
 
 
 #####################################################################################################################

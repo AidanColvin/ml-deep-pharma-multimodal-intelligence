@@ -1,35 +1,37 @@
 import pandas as pd
 import glob
+import os
+from tabulate import tabulate
 
-def compare_results() -> None:
-    """
-    given nothing
-    read all model result CSVs from data/preprocessed
-    return nothing — prints and saves a sorted model comparison
-    """
-    files = glob.glob('data/preprocessed/*_results.csv')
+def compare_results():
+    """Reads versioned CSVs and prints a comparison table with bars."""
+    files = glob.glob('data/processed/*-v*.csv')
     if not files:
-        print("No result files found. Run the training scripts first.")
+        print("\n[!] No versioned results found. Run 'run lg' first.")
         return
 
-    comparison_df = pd.concat(
-        [pd.read_csv(f) for f in files], ignore_index=True
-    ).sort_values(by='Accuracy', ascending=False)
+    data = []
+    for f in files:
+        name = os.path.basename(f)
+        score = 0.0
+        # Extracts score from filename if present (e.g., lg-v1-score-0.51.csv)
+        if "score-" in name:
+            try:
+                score = float(name.split("score-")[1].replace(".csv", ""))
+            except:
+                pass
+        
+        data.append({"File": name, "Accuracy": score})
 
-    comparison_df.to_csv('data/preprocessed/model_comparison.csv', index=False)
+    df = pd.DataFrame(data).sort_values(by="Accuracy", ascending=False)
 
-    print("")
-    print("  ── Model Comparison ────────────────────────────")
-    print(f"     {'Model':<35} {'Accuracy':>10}")
-    print(f"     {'─────':<35} {'────────':>10}")
-    for _, row in comparison_df.iterrows():
-        bar   = "█" * int(row['Accuracy'] * 30)
-        print(f"     {row['Model']:<35} {row['Accuracy']:>10.4f}  {bar}")
-    print("")
-    best = comparison_df.iloc[0]
-    print(f"  ✔  Best model: {best['Model']} ({best['Accuracy']:.4f} accuracy)")
-    print(f"  ── Saved to  : data/preprocessed/model_comparison.csv")
-    print("")
+    print("\n── Model Performance Table ───────────────────")
+    print(tabulate(df, headers="keys", tablefmt="github", showindex=False))
+    
+    print("\n── Visual Accuracy Bar ───────────────────────")
+    for _, row in df.iterrows():
+        bar = "█" * int(row['Accuracy'] * 40)
+        print(f"  {row['File']:<30} |{bar} {row['Accuracy']:.4f}")
 
 if __name__ == "__main__":
     compare_results()

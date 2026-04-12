@@ -1,3 +1,6 @@
 pandas
 numpy
-scikit-learn
+scikit-learntqdm
+tabulate
+tqdm
+tabulate

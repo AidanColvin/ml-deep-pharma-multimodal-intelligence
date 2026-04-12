@@ -1,28 +1,28 @@
 import pandas as pd
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import accuracy_score
+from tqdm import tqdm
+from sklearn.linear_model import LogisticRegression, Ridge
+from sklearn.multioutput import MultiOutputClassifier, MultiOutputRegressor
+try:
+    from src.train_helper import load_and_vectorize
+except ImportError:
+    from train_helper import load_and_vectorize
 
-def train_and_evaluate() -> None:
-    X_train = pd.read_csv('data/preprocessed/X_train_spline.csv')
-    X_test  = pd.read_csv('data/preprocessed/X_test_spline.csv')
-    y_train = pd.read_csv('data/preprocessed/y_train.csv')['Heart Disease']
-    y_test  = pd.read_csv('data/preprocessed/y_test.csv')['Heart Disease']
+def train():
+    train_df, test_df, X_train, X_test, bin_cols, prr_cols = load_and_vectorize()
+    
+    pbar = tqdm(total=3, desc="Training Logistic Regression")
+    sev_m = LogisticRegression(max_iter=500).fit(X_train, train_df['Severity'])
+    pbar.update(1)
+    bin_m = MultiOutputClassifier(LogisticRegression(max_iter=500)).fit(X_train, train_df[bin_cols])
+    pbar.update(1)
+    prr_m = MultiOutputRegressor(Ridge()).fit(X_train, train_df[prr_cols])
+    pbar.update(1)
+    pbar.close()
+    
+    sub = pd.DataFrame({'Pair_ID': test_df['Pair_ID'], 'Severity': sev_m.predict(X_test)})
+    sub = pd.concat([sub, pd.DataFrame(bin_m.predict(X_test), columns=bin_cols)], axis=1)
+    sub = pd.concat([sub, pd.DataFrame(prr_m.predict(X_test), columns=prr_cols)], axis=1)
+    sub.to_csv('data/processed/submission_lg.csv', index=False)
+    print("✔ LG Training Complete and Saved.")
 
-    grid = GridSearchCV(
-        LogisticRegression(penalty='l2', solver='lbfgs', max_iter=3000, random_state=42),
-        param_grid={'C': [0.001, 0.01, 0.1, 1, 10, 100]},
-        cv=5, scoring='roc_auc', n_jobs=1
-    )
-    grid.fit(X_train, y_train)
-    best = grid.best_estimator_
-    print(f"  Best C: {grid.best_params_['C']}  CV AUC: {grid.best_score_:.4f}")
-
-    predictions = best.predict(X_test)
-    accuracy = accuracy_score(y_test, predictions)
-    pd.DataFrame({'Model': ['Logistic Regression Ridge'], 'Accuracy': [accuracy]}).to_csv(
-        'data/logistic_regression_results.csv', index=False)
-    print("Logistic Regression trained.")
-
-if __name__ == "__main__":
-    train_and_evaluate()
+if __name__ == "__main__": train()
