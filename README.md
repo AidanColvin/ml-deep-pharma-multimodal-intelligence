@@ -1,5 +1,13 @@
 # Drug Interaction Severity Prediction Multi-Task ML and Cluster Analysis
- 
+
+[![Language: Python](https://img.shields.io/badge/language-python-blue.svg)](#)
+[![ML: scikit-learn](https://img.shields.io/badge/ML-scikit--learn-orange.svg)](#)
+[![Data: FDA FAERS](https://img.shields.io/badge/data-FDA_FAERS-red.svg)](#)
+[![Tasks: Multi-Task](https://img.shields.io/badge/tasks-classification_%7C_regression_%7C_clustering-purple.svg)](#)
+[![Features: TF--IDF](https://img.shields.io/badge/features-TF--IDF-yellowgreen.svg)](#)
+[![AUC: 0.9252](https://img.shields.io/badge/AUC-0.9252-brightgreen.svg)](#)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 Predicts how dangerous a drug combination is using real FDA safety data. Trains three supervised models across three clinical tasks. Applies unsupervised clustering to find natural groupings in drug interaction profiles.
  
 ---
