@@ -1,5 +1,83 @@
-# Drug Interaction Severity Prediction
-Generative AI provided limited assistance in line with the course policy on usage of AI.
+# Drug Interaction Severity Prediction Multi-Task ML and Cluster Analysis
+ 
+Predicts how dangerous a drug combination is using real FDA safety data. Trains three supervised models across three clinical tasks. Applies unsupervised clustering to find natural groupings in drug interaction profiles.
+ 
+---
+ 
+## The Problem
+ 
+Patients often take multiple medications at once. Some drug pairs are dangerous. Clinical trials cannot test every possible combination. Harmful interactions are often discovered only after a patient is harmed. This project builds a pipeline to screen drug pairs and predict how dangerous they are.
+ 
+---
+ 
+## What the Model Does
+ 
+Three supervised models run on the same dataset. Each solves a different clinical task.
+ 
+| Task | What It Predicts | Model |
+|------|-----------------|-------|
+| Severity Classification | Is this pair Minor, Moderate, or Major? | Gradient Boosting |
+| Side Effect Detection | Which of 50 adverse events will occur? | MultiOutput Logistic Regression |
+| Risk Scoring (PRR) | How strong is the safety signal per side effect? | Ridge Regression |
+ 
+A fourth unsupervised model groups drug pairs by their adverse event profiles using K-means clustering.
+ 
+---
+ 
+## Key Findings
+ 
+- All classifiers achieved AUC above 0.91 on unseen drug structures
+- Gradient Boosting was the strongest model across all severity metrics
+- Top predictive tokens (`lymphocytes`, `glucose`, `prolongation`) map to known high-risk drug classes
+- Clustering found two clean profiles: high-symptom and low-symptom pairs. Severity was nearly identical within both clusters. How many side effects a drug causes and how dangerous it is are independent dimensions.
+---
+ 
+## Pipeline
+ 
+```
+Raw Text Fields (mechanism, ADME, warnings, toxicity, SMILES)
+        |
+Concatenate > Stratified 80/20 Split > TF-IDF (2,000 tokens, fit on train only)
+        |
+Task 1: Gradient Boosting       > Severity (Major / Moderate / Minor)
+Task 2: MultiOutput LR          > 50 binary side effects
+Task 3: Ridge Regression        > 50 PRR risk scores
+        |
+K-means Clustering (k=2, silhouette=0.776) > Adverse event profiling
+```
+ 
+---
+ 
+## Stack
+ 
+`Python` `scikit-learn` `TF-IDF` `Gradient Boosting` `Ridge Regression` `K-means` `pandas` `matplotlib`
+ 
+---
+ 
+## Results
+ 
+| Component | Weight | Score |
+|-----------|--------|-------|
+| Severity Classification (Macro F1) | 40% | 0.5666 |
+| Side Effect Prediction (Micro F1) | 30% | 0.5772 |
+| PRR Risk Regression (Inv. RMSE) | 30% | 0.2023 |
+ 
+---
+ 
+## Repo Structure
+ 
+```
+notebooks/      model pipeline
+data/           feature descriptions
+report.pdf      full write-up with all figures
+README.md
+```
+ 
+---
+ 
+# Full Report
+
+# Drug Interaction Severity Prediction Multi-Task ML and Cluster Analysis
 
 ---
 
